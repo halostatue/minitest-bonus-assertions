@@ -1,6 +1,6 @@
 = minitest-extra-assertions
 
-Additional assertions for seattlerb's popular MiniTest framework. Mostly
+Additional assertions for seattlerb's popular MiniTest framework: https://github.com/seattlerb/minitest. Mostly
 aimed around improving compatibility with test-unit.
 
 == Installing minitest-extra-assertions
