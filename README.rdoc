@@ -1,6 +1,10 @@
 = minitest-extra-assertions
 
-Description goes here.
+Additional assertions for seattlerb's popular MiniTest framework. Mostly
+aimed around improving compatibility with test-unit.
+
+== Installing minitest-extra-assertions
+1. Add it to your Gemfile.
 
 == Contributing to minitest-extra-assertions
  
