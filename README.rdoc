@@ -1,7 +1,9 @@
 = minitest-extra-assertions
 
 Additional assertions for seattlerb's popular MiniTest framework: https://github.com/seattlerb/minitest. Mostly
-aimed around improving compatibility with test-unit.
+aimed around improving compatibility with test-unit. Still not intended
+to provide a full drop-in replacement for test-unit; but this should
+salve the headaches involved in switching.
 
 == Installing minitest-extra-assertions
 1. Add it to your Gemfile.
@@ -18,6 +20,4 @@ aimed around improving compatibility with test-unit.
 
 == Copyright
 
-Copyright (c) 2012 Ben Somers. See LICENSE.txt for
-further details.
-
+Copyright (c) 2012 Ben Somers. See LICENSE.txt for further details.
