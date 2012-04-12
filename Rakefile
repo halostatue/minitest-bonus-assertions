@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "minitest-extra-assertions"
   gem.homepage = "http://github.com/bensomers/minitest-extra-assertions"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Extra assertions for MiniTest}
+  gem.description = %Q{Additional assertions for seattlerb's popular MiniTest framework. Mostly aimed around improving compatibility with test-unit.}
   gem.email = "somers.ben@gmail.com"
   gem.authors = ["Ben Somers"]
   # dependencies defined in Gemfile
