@@ -79,6 +79,37 @@ class TestMinitestExtraAssertions < Test::Unit::TestCase
     end
   end
 
+  context ".assert_between" do
+    should "return true for basic integers" do
+      @assertion_count = 1
+      assert_equal true, @tc.assert_between(1,10,5), "returns true for 1 to 10 and 5"
+    end
+
+    should "return true for the range case" do
+      @assertion_count = 1
+      assert_equal true, @tc.assert_between((1..10), 5), "returns true for 1..10 with 5"
+    end
+
+    should "handle the case where the hi part is first" do
+      @assertion_count = 1
+      assert_equal true, @tc.assert_between(10, 1, 5), "returns true for 10 to 1, with 5"
+    end
+
+    should "return false for values outside the bounds" do
+      @assertion_count = 1
+      util_assert_triggered "Expected 100 to be between 10 and 1." do
+        @tc.assert_between(1, 10, 100)
+      end
+    end
+
+    should "raise error for incompatible values" do
+      @assertion_count = 0
+      assert_raises ArgumentError do
+        @tc.assert_between(1, 10, Time.now)
+      end
+    end
+  end
+
   # This is pull-requested for minitest proper, hopefully will be merged soon
   def test_assert_match_unusual_object
     @assertion_count = 2
