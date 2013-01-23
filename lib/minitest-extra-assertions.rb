@@ -10,7 +10,10 @@ module MiniTest
       assert obj == true, msg
     end
 
-    # This is pull-requested for minitest proper, hopefully will be merged soon
+    # This actually conflicts with behavior in minitest proper; this mimics the
+    # old Test::Unit implementation, relying on the #=~ method of the actual object.
+    # Minitest calls #=~ on the matcher instead, which is honestly better by the POLS
+    # but makes it much more difficult to test objects that have custom #=~ implementations.
     def assert_match exp, act, msg = nil
       msg = message(msg) { "Expected #{mu_pp(exp)} to match #{mu_pp(act)}" }
       assert_respond_to act, "=~"
