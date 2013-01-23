@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "minitest-extra-assertions"
-  s.version = "0.1.0"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ben Somers"]
-  s.date = "2012-04-12"
+  s.date = "2013-01-23"
   s.description = "Additional assertions for seattlerb's popular MiniTest framework. Mostly aimed around improving compatibility with test-unit."
   s.email = "somers.ben@gmail.com"
   s.extra_rdoc_files = [
@@ -25,13 +25,14 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "lib/minitest-extra-assertions.rb",
+    "minitest-extra-assertions.gemspec",
     "test/helper.rb",
     "test/test_minitest-extra-assertions.rb"
   ]
   s.homepage = "http://github.com/bensomers/minitest-extra-assertions"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.17"
+  s.rubygems_version = "1.8.24"
   s.summary = "Extra assertions for MiniTest"
 
   if s.respond_to? :specification_version then
