@@ -1,0 +1,5 @@
+#! zsh
+
+--workenv-tab --first
+--workenv-tab --desc autotest autotest
+--workenv-tab --desc documents "fswatch -o *.rdoc lib/**/*.rb| xargs -n1 -I{} rake docs"

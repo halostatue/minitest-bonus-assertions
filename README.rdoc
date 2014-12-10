@@ -1,27 +1,58 @@
-= minitest-extra-assertions
+= minitest-bonus-assertions
 
-Additional assertions for seattlerb's popular MiniTest framework: https://github.com/seattlerb/minitest. Mostly
-aimed around improving compatibility with test-unit. Still not intended
-to provide a full drop-in replacement for test-unit; but this should
-salve the headaches involved in switching.
+code :: https://github.com/halostatue/minitest-bonus-assertions
+bugs :: https://github.com/halostatue/minitest-bonus-assertions/issues
+continuous integration :: {<img src="https://travis-ci.org/halostatue/minitest-bonus-assertions.png" />}[https://travis-ci.org/halostatue/minitest-bonus-assertions]
 
-== Installing minitest-extra-assertions
-1. Add it to your Gemfile.
+== Description
 
-== Contributing to minitest-extra-assertions
- 
-* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
-* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
-* Fork the project.
-* Start a feature/bugfix branch.
-* Commit and push until you are happy with your contribution.
-* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
-* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
+Additional assertions for {Minitest}[https://github.com/seattlerb/minitest].
 
-== Contributors
+== Features
 
-  * @jaggederest: Added assert_between
+New assertions:
 
-== Copyright
+  assert_false, must_be_false
+  assert_true, must_Be_true
+  assert_between, must_be_between
+  assert_has_keys, must_have_keys
+  assert_missing_keys, must_not_have_keys
+  assert_raises_with_message, must_raise_with_message
 
-Copyright (c) 2012 Ben Somers. See LICENSE.txt for further details.
+== Background
+
+minitest-bonus-assertions started life as a patch to the assertions provided by
+Ben Somer’s
+{minitest-extra-assertions}[https://github.com/bensomers/minitest-extra-assertions].
+There were some nice assertions included, but there were other changes that
+needed to be made to bring it up to support Minitest 5. There was also an
+override to the default +assert_match+ implementation meant to ease the
+transition from Test::Unit (the main reason he wrote this assertion plugin for
+Minitest in the first place). I do not believe this is sensible five major
+versions in: I removed it.
+
+Because Ben did not feel comfortable making this particular change, I felt that
+the best way to provide the original assertions and my new assertions—without
+the +assert_match+ override—was to fork this as a new project. I am indebted to
+Ben for writing these assertions in the first place.
+
+== Install
+
+Add it to your Gemfile:
+
+  gem 'minitest-bonus-assertions', '~> 1.0'
+
+Or manually install:
+
+  % gem install minitest-bonus-assertions
+
+== minitest-bonus-assertions Semantic Versioning
+
+minitest-bonus-assertions uses a {Semantic Versioning}[http://semver.org/]
+scheme with one change:
+
+* When PATCH is zero (+0+), it will be omitted from version references.
+
+:include: Contributing.rdoc
+
+:include: Licence.rdoc

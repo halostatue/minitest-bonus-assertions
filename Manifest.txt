@@ -1,0 +1,17 @@
+.autotest
+.document
+.gemtest
+.minitest.rb
+.travis.yml
+.workenv
+Contributing.rdoc
+Gemfile
+History.rdoc
+Licence.rdoc
+Manifest.txt
+README.rdoc
+Rakefile
+VERSION
+lib/minitest-bonus-assertions.rb
+test/minitest_config.rb
+test/test_minitest-bonus-assertions.rb
