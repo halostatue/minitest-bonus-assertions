@@ -1,3 +1,9 @@
+=== 1.1 / 2015-10-19
+
+* 1 governance change
+
+  * This project now has a {Code of Conduct}[Code-of-Conduct_rdoc.html]
+
 === 1.0 / 2015-03-05
 
 * 1 major enhancement

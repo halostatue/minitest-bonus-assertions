@@ -16,7 +16,8 @@ spec = Hoe.spec 'minitest-bonus-assertions' do
 
   self.history_file = 'History.rdoc'
   self.readme_file = 'README.rdoc'
-  self.extra_rdoc_files = FileList["*.rdoc"].to_a
+  self.extra_rdoc_files = FileList["*.rdoc"].to_a -
+    %w(History.rdoc README.rdoc)
 
   license "MIT"
 

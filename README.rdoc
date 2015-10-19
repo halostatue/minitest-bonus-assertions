@@ -53,6 +53,8 @@ scheme with one change:
 
 * When PATCH is zero (+0+), it will be omitted from version references.
 
+:include: Code-of-Conduct.rdoc
+
 :include: Contributing.rdoc
 
 :include: Licence.rdoc
