@@ -6,41 +6,56 @@ continuous integration :: {<img src="https://travis-ci.org/halostatue/minitest-b
 
 == Description
 
-Additional assertions for {Minitest}[https://github.com/seattlerb/minitest].
+Bonus assertions for {Minitest}[https://github.com/seattlerb/minitest],
+providing assertions I use frequently.
 
 == Features
 
 New assertions:
 
-  assert_false, must_be_false
-  assert_true, must_Be_true
-  assert_between, must_be_between
-  assert_has_keys, must_have_keys
-  assert_missing_keys, must_not_have_keys
-  assert_raises_with_message, must_raise_with_message
+* +assert_false+: requires that the value be exactly +false+. (+must_be_false+)
+* +assert_true+: requires that the value be exactly +true+. (+must_be_true+)
+* +assert_between+: requires that the value be strictly between the low and
+  high values provided, or the range (this test is boundary-exclusive).
+  (+must_be_between+)
+* +assert_has_keys+/+refute_missing_keys+: requires that the object contains all
+  of the keys expected. (+must_have_keys+)
+* +assert_missing_keys+/+refute_has_keys+: requires that the object *not* have
+  any of the keys expected. (+must_not_have_keys+)
+* +assert_raises_with_message+: requires that the exception raised in the
+  provided block has a specific message (tested with +assert_equal+).
+  (+must_raise_with_message+)
+* +assert_set_equal+: requires that the actual enumerable have the same values
+  as the expected enumerable, without regard to order and ignoring duplicate
+  values. (+must_equal_set+)
+* +refute_set_equal+: requires that the actual enumerable *not* have the same
+  values as the expected enumerable. (+must_not_equal_set+)
+
+I am also providing the Minitest-tester code I use as something that can be
+required by other developers. This should *only* be used to test Minitest
+assertions and extensions. For more information on Minitest::AssertionTests,
+see its documentation.
 
 == Background
 
-minitest-bonus-assertions started life as a patch to the assertions provided by
-Ben Somer’s
+minitest-bonus-assertions started life as a patch to Ben Somer’s
 {minitest-extra-assertions}[https://github.com/bensomers/minitest-extra-assertions].
 There were some nice assertions included, but there were other changes that
 needed to be made to bring it up to support Minitest 5. There was also an
 override to the default +assert_match+ implementation meant to ease the
 transition from Test::Unit (the main reason he wrote this assertion plugin for
 Minitest in the first place). I do not believe this is sensible five major
-versions in: I removed it.
-
-Because Ben did not feel comfortable making this particular change, I felt that
-the best way to provide the original assertions and my new assertions—without
-the +assert_match+ override—was to fork this as a new project. I am indebted to
-Ben for writing these assertions in the first place.
+versions into Minitest: I removed it. Ben did not feel comfortable making this
+particular change, so I felt that the best way to provide the original
+assertions and my new assertions—without the +assert_match+ override—was to
+fork this as a new project. I am indebted to Ben and his contributors for
+writing these assertions in the first place.
 
 == Install
 
 Add it to your Gemfile:
 
-  gem 'minitest-bonus-assertions', '~> 1.0'
+  gem 'minitest-bonus-assertions', '~> 1.1'
 
 Or manually install:
 

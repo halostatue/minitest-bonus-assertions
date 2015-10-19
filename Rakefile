@@ -28,7 +28,7 @@ spec = Hoe.spec 'minitest-bonus-assertions' do
   self.extra_dev_deps << ['hoe-gemspec2', '~> 1.1']
   self.extra_dev_deps << ['hoe-git', '~> 1.5']
   self.extra_dev_deps << ['hoe-travis', '~> 1.2']
-  self.extra_dev_deps << ['minitest', '~> 5.4']
+  self.extra_dev_deps << ['minitest', '~> 5.8']
   self.extra_dev_deps << ['minitest-around', '~> 0.3']
   self.extra_dev_deps << ['minitest-autotest', '~> 1.0']
   self.extra_dev_deps << ['minitest-bisect', '~> 1.2']

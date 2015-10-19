@@ -12,7 +12,7 @@ Licence.rdoc
 Manifest.txt
 README.rdoc
 Rakefile
-VERSION
 lib/minitest-bonus-assertions.rb
+lib/minitest/assertion_tests.rb
 test/minitest_config.rb
 test/test_minitest-bonus-assertions.rb

@@ -1,4 +1,28 @@
-=== 1.1 / 2015-10-19
+=== 2.0 / 2015-10-19
+
+* 1 major enhancement
+
+  * Added Minitest::AssertionTests to assist with testing newly added
+    assertions, even for other gems. Previously, a variant of what is provided
+    was present in +test/minitest_config.rb+.
+
+* 2 minor enhancements
+
+  * Made the expectation +must_be_between+ ready for the next version of
+    Minitest by calling +assert_between+ on the test context (+ctx+) rather
+    than on the bare object under test. Because of this change,
+    minitest-bonus-assertions is now tested for compatibility only with
+    minitest 5.8 or higher.
+
+  * Added +assert_set_equal+ and +refute_set_equal+ (with expectation forms of
+    +must_equal_set+ and +must_not_equal_set+) to test enumerable values for
+    set equality.
+
+* 1 minor bugfix
+
+  * The documentation for +assert_between+ was unclear; it is a
+    boundary-exclusive test, not a boundary-inclusive test. That is, it is
+    <tt>lo &lt; exp &lt; hi</tt>, not <tt>lo &lt;= exp &lt;= hi</tt>.
 
 * 1 governance change
 
