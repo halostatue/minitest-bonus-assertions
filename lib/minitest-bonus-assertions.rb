@@ -20,14 +20,23 @@ module Minitest
     end
 
     ##
-    # Fails unless +exp+ is between +lo+ and +hi+, or is in +range+.
+    # Fails unless +exp+ is between +lo+ and +hi+, or is in +range+. This test
+    # is exclusive of the boundaries. That is:
+    #
+    #   assert_between 1, 10, 1
+    #
+    # will return false, but:
+    #
+    #   assert_between 0.99, 10.1, 1
+    #
+    # will return true.
     #
     # :call-seq:
     #    assert_between lo, hi, exp, msg = nil
     #    assert_between range, exp, msg = nil
 
     def assert_between(*args)
-      lo, hi, exp, msg = if args.first.is_a?(Range)
+      lo, hi, exp, msg = if args.first.kind_of?(Range)
                            [args.first.begin, args.first.end, args[1], args[2]]
                          else
                            args[0..3]
@@ -96,12 +105,12 @@ module Minitest
     #   2.must_be_between 1..3
 
     def must_be_between *args
-      hi, lo, msg  = if args.first.is_a?(Range)
+      hi, lo, msg  = if args.first.kind_of?(Range)
                        [args.first.begin, args.first.end, args[1]]
                      else
                        args[0..2]
                      end
-      assert_between lo, hi, self
+      ctx.assert_between lo, hi, target, msg
     end
 
     ##
