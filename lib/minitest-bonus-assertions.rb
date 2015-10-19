@@ -77,6 +77,28 @@ module Minitest
       assert_equal exp_msg, exception.message, msg
       exception
     end
+
+    ##
+    # Fails unless the set from +actual+ matches the set from +exp+.
+
+    def assert_set_equal expected, actual, msg = nil
+      require 'set'
+      msg = message(msg) {
+        "Expected #{mu_pp(actual)} to be set equivalent to #{mu_pp(expected)}"
+      }
+      assert_equal Set.new(expected), Set.new(actual), msg
+    end
+
+    ##
+    # Fails unless the set from +actual+ differs from the set from +exp+.
+
+    def refute_set_equal expected, actual, msg = nil
+      require 'set'
+      msg = message(msg) {
+        "Expected #{mu_pp(actual)} not to be set equivalent to #{mu_pp(expected)}"
+      }
+      refute_equal Set.new(expected), Set.new(actual), msg
+    end
   end
 
   module Expectations
@@ -139,5 +161,23 @@ module Minitest
     # :method: must_raise_with_message
 
     infect_an_assertion :assert_raises_with_message, :must_raise_with_message
+
+    ##
+    # See Minitest::Assertions#assert_set_equal
+    #
+    #    %w(a b c).must_equal_set %(c b a)
+    #
+    # :method: must_equal_set
+
+    infect_an_assertion :assert_set_equal, :must_equal_set, :unary
+
+    ##
+    # See Minitest::refuteions#refute_set_equal
+    #
+    #    %w(a b c).must_equal_set %(c b a)
+    #
+    # :method: must_equal_set
+
+    infect_an_assertion :refute_set_equal, :must_not_equal_set, :unary
   end
 end
