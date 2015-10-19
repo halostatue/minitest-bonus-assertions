@@ -1,7 +1,8 @@
 module Minitest
-  module BonusAssertions
-    VERSION = '1.0'
+  module BonusAssertions # :nodoc:
+    VERSION = '2.0' # :nodoc:
   end
+
   module Assertions
     ##
     # Fails unless +obj+ is literally +false+.
@@ -48,8 +49,9 @@ module Minitest
 
     ##
     # Fails unless +obj+ has all of the +keys+ listed.
+
     def assert_has_keys obj, keys, msg = nil
-      keys = [ keys ] unless keys.is_a?(Array)
+      keys = [ keys ] unless keys.kind_of?(Array)
       msg = message(msg) { "Expected #{mu_pp(obj)} to include all keys #{mu_pp(keys)}" }
       keys.all? { |key| assert obj.key?(key), msg }
     end
@@ -57,9 +59,12 @@ module Minitest
 
     ##
     # Fails if +obj+ has any of the keys listed.
+
     def assert_missing_keys obj, keys, msg = nil
-      keys = [ keys ] unless keys.is_a?(Array)
-      msg = message(msg) { "Expected #{mu_pp(obj)} not to include any of these keys #{mu_pp(keys)}" }
+      keys = [ keys ] unless keys.kind_of?(Array)
+      msg = message(msg) {
+        "Expected #{mu_pp(obj)} not to include any of these keys #{mu_pp(keys)}"
+      }
       keys.none? { |key| refute obj.key?(key), msg }
     end
     alias_method :refute_has_keys, :assert_missing_keys
@@ -67,6 +72,7 @@ module Minitest
     ##
     # Fails unless the block raises +exp+ with the message +exp_msg+. Returns
     # the exception matched so you can check other attributes.
+
     def assert_raises_with_message exp, exp_msg, msg = nil
       msg = message(msg) { "#{mu_pp(exp)} exception expected with message #{mu_pp(exp_msg)}" }
 
