@@ -1,7 +1,6 @@
 # -*- ruby -*-
 
 require 'rubygems'
-p $LOAD_PATH
 require 'hoe'
 require 'rake/clean'
 
