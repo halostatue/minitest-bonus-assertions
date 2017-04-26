@@ -7,7 +7,7 @@ continuous integration :: {<img src="https://travis-ci.org/halostatue/minitest-b
 == Description
 
 Bonus assertions for {Minitest}[https://github.com/seattlerb/minitest],
-providing assertions I use frequently.
+providing assertions I use frequently, supporting only Ruby 2.0 or better.
 
 == Features
 
@@ -30,6 +30,8 @@ New assertions:
   values. (+must_equal_set+)
 * +refute_set_equal+: requires that the actual enumerable *not* have the same
   values as the expected enumerable. (+must_not_equal_set+)
+* +assert_result_equal+: requires that the actual is equal to the result of
+  evaluating an expression.
 
 I am also providing the Minitest-tester code I use as something that can be
 required by other developers. This should *only* be used to test Minitest
