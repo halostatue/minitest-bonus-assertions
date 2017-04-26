@@ -1,6 +1,6 @@
 module Minitest
   module BonusAssertions # :nodoc:
-    VERSION = '2.0' # :nodoc:
+    VERSION = '3.0' # :nodoc:
   end
 
   module Assertions
@@ -105,6 +105,39 @@ module Minitest
       }
       refute_equal Set.new(expected), Set.new(actual), msg
     end
+
+    ##
+    # Fails unless +actual+ is the same value as the result of evaluating
+    # +expr+ in the context of the test case through instance_eval (when +expr+
+    # is a String) or instance_exec (when +expr+ is a callable).
+    #
+    # If +expr+ results in +nil+, this test delegates to #assert_nil, otherwise
+    # it delegates to #assert_equal.
+    #
+    # This assertion exists because Minitest 6 is changing #assert_equal so
+    # that it fails when comparing against +nil+.
+    #
+    #   assert_result_equal -> { model.department }, response[:department]
+    #   assert_result_equal 'model.department', response[:department]
+    def assert_result_equal expr, actual, msg = nil
+      result = if expr.respond_to?(:call)
+                 instance_exec(&expr)
+               else
+                 instance_eval(expr)
+               end
+
+      if result.nil?
+        msg = message(msg) {
+          "nil expected (expr #{mu_pp(expr)}) but was #{mu_pp(actual)}"
+        }
+        assert_nil actual, msg
+      else
+        msg = message(msg) {
+          "#{mu_pp(result)} expected (expr #{mu_pp(expr)}) but was #{mu_pp(actual)}"
+        }
+        assert_equal result, actual, msg
+      end
+    end
   end
 
   module Expectations
@@ -178,12 +211,20 @@ module Minitest
     infect_an_assertion :assert_set_equal, :must_equal_set, :unary
 
     ##
-    # See Minitest::refuteions#refute_set_equal
+    # See Minitest::Assertions#refute_set_equal
     #
     #    %w(a b c).must_equal_set %(c b a)
     #
     # :method: must_equal_set
 
     infect_an_assertion :refute_set_equal, :must_not_equal_set, :unary
+
+    ##
+    # See Minitest::Assertions#assert_result_equal
+    #
+    #   response[:department].must_equal_result 'model.department'
+    #   response[:department].must_equal_result -> { model.department }
+
+    infect_an_assertion :assert_result_equal, :must_equal_result, :unary
   end
 end

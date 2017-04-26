@@ -1,3 +1,16 @@
+=== 3.0 / 2017-04-26
+
+* 1 major enhancement
+
+  * Dropped support for Ruby 1.9.
+
+* 1 minor enhancement
+
+  * Added assertion +assert_result_equal+ (expectation +must_equal_result+) to
+    be ready for Minitest 6. This will allow those who have legitimate cases
+    where they do not know whether the expected is nil or not to have a
+    meaningful test and silence deprecation warnings.
+
 === 2.0 / 2015-10-19
 
 * 1 major enhancement
