@@ -31,7 +31,6 @@ spec = Hoe.spec 'minitest-bonus-assertions' do
   extra_dev_deps << ['minitest-around', '~> 0.3']
   extra_dev_deps << ['minitest-autotest', '~> 1.0']
   extra_dev_deps << ['minitest-bisect', '~> 1.2']
-  extra_dev_deps << ['minitest-bonus-assertions', '~> 2.0']
   extra_dev_deps << ['minitest-focus', '~> 1.1']
   extra_dev_deps << ['minitest-moar', '~> 0.0']
   extra_dev_deps << ['minitest-pretty_diff', '~> 0.1']
