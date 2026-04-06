@@ -1,73 +1,83 @@
-# -*- ruby -*-
+# frozen_string_literal: true
 
-require 'rubygems'
-require 'hoe'
-require 'rake/clean'
+require "rubygems"
+require "hoe"
+require "rake/clean"
+require "rdoc/task"
+require "minitest"
+require "minitest/test_task"
 
-Hoe.plugin :doofus
-Hoe.plugin :gemspec2
-Hoe.plugin :git
-Hoe.plugin :minitest
-Hoe.plugin :travis
-Hoe.plugin :email unless ENV['CI'] or ENV['TRAVIS']
+Hoe.plugin :halostatue
+Hoe.plugin :rubygems
 
-spec = Hoe.spec 'minitest-bonus-assertions' do
-  developer('Austin Ziegler', 'halostatue@gmail.com')
+Hoe.plugins.delete :debug
+Hoe.plugins.delete :newb
+Hoe.plugins.delete :publish
+Hoe.plugins.delete :signing
+Hoe.plugins.delete :test
 
-  license 'MIT'
+hoe = Hoe.spec "minitest-bonus-assertions" do
+  developer("Austin Ziegler", "halostatue@gmail.com")
 
-  require_ruby_version '>= 2.0'
+  # self.trusted_release = ENV["rubygems_release_gem"] == "true"
 
-  self.history_file = 'History.rdoc'
-  self.readme_file = 'README.rdoc'
-  self.extra_rdoc_files = FileList["*.rdoc"].to_a -
-    %w(History.rdoc README.rdoc)
+  require_ruby_version ">= 2.0"
 
-  extra_dev_deps << ['hoe-doofus', '~> 1.0']
-  extra_dev_deps << ['hoe-gemspec2', '~> 1.1']
-  extra_dev_deps << ['hoe-git', '~> 1.6']
-  extra_dev_deps << ['hoe-travis', '~> 1.2']
-  extra_dev_deps << ['minitest', '~> 5.8']
-  extra_dev_deps << ['minitest-around', '~> 0.3']
-  extra_dev_deps << ['minitest-autotest', '~> 1.0']
-  extra_dev_deps << ['minitest-bisect', '~> 1.2']
-  extra_dev_deps << ['minitest-focus', '~> 1.1']
-  extra_dev_deps << ['minitest-moar', '~> 0.0']
-  extra_dev_deps << ['minitest-pretty_diff', '~> 0.1']
-  extra_dev_deps << ['rake', '~> 10.0']
-  extra_dev_deps << ['simplecov', '~> 0.7']
-  extra_dev_deps << ['coveralls', '~> 0.7']
+  license "MIT"
+
+  spec_extras[:metadata] = ->(val) {
+    val["rubygems_mfa_required"] = "true"
+  }
+
+  extra_dev_deps << ["hoe", "~> 4.0"]
+  extra_dev_deps << ["hoe-halostatue", "~> 2.1", ">= 2.1.1"]
+  extra_dev_deps << ["minitest", ">= 5.16", "< 7"]
+  extra_dev_deps << ["minitest-focus", "~> 1.1"]
+  extra_dev_deps << ["rake", ">= 10.0", "< 14"]
+  extra_dev_deps << ["rdoc", ">= 0.0", "< 7"]
+  extra_dev_deps << ["simplecov", "~> 0.22"]
+  extra_dev_deps << ["simplecov-lcov", "~> 0.8"]
+  extra_dev_deps << ["standard", "~> 1.0"]
 end
 
-namespace :test do
-  if ENV['CI'] or ENV['TRAVIS']
-    desc "Submit test coverage to Coveralls"
-    task :coveralls do
-      spec.test_prelude = [
-        'require "psych"',
-        'require "simplecov"',
-        'require "coveralls"',
-        'SimpleCov.formatter = Coveralls::SimpleCov::Formatter',
-        'SimpleCov.start("test_frameworks") { command_name "Minitest" }',
-        'gem "minitest"'
-      ].join('; ')
-      Rake::Task['test'].execute
-    end
+Minitest::TestTask.create :test
+Minitest::TestTask.create :coverage do |t|
+  formatters = <<-RUBY.split($/).join(" ")
+    SimpleCov::Formatter::MultiFormatter.new([
+      SimpleCov::Formatter::HTMLFormatter,
+      SimpleCov::Formatter::LcovFormatter,
+      SimpleCov::Formatter::SimpleFormatter
+    ])
+  RUBY
+  t.test_prelude = <<-RUBY.split($/).join("; ")
+  require "simplecov"
+  require "simplecov-lcov"
 
-      Rake::Task['travis'].prerequisites.replace(%w(test:coveralls))
+  SimpleCov::Formatter::LcovFormatter.config do |config|
+    config.report_with_single_file = true
+    config.lcov_file_name = "lcov.info"
   end
 
-  desc "Runs test coverage. Only works Ruby 1.9+ and assumes 'simplecov' is installed."
-  task :coverage do
-    spec.test_prelude = [
-      'require "simplecov"',
-      'SimpleCov.start("test_frameworks") { command_name "Minitest" }',
-      'gem "minitest"'
-    ].join('; ')
-    Rake::Task['test'].execute
+  SimpleCov.start "test_frameworks" do
+    enable_coverage :branch
+    primary_coverage :branch
+    formatter #{formatters}
   end
-
-  CLOBBER << 'coverage'
+  RUBY
 end
 
-# vim: syntax=ruby
+task default: :test
+
+task :version do
+  require "minitest/bonus_assertions/version"
+  puts Minitest::BonusAssertions::VERSION
+end
+
+RDoc::Task.new do
+  _1.title = "Bonus Assertions for Minitest"
+  _1.main = "lib/minitest/bonus_assertions.rb"
+  _1.rdoc_dir = "doc"
+  _1.rdoc_files = hoe.spec.require_paths - ["Manifest.txt"] + hoe.spec.extra_rdoc_files
+  _1.markup = "markdown"
+end
+task docs: :rerdoc

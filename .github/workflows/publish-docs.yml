@@ -1,0 +1,63 @@
+name: Publish docs
+
+on:
+  workflow_dispatch:
+
+  workflow_call:
+
+permissions: {}
+
+concurrency:
+  group: publish-docs-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish_docs:
+    name: Publish docs from main
+    runs-on: ubuntu-latest
+    environment: release
+
+    permissions:
+      contents: read
+      pages: write    # Publish documentation to pages
+      id-token: write # Publish documentation to pages
+
+    steps:
+      - name: Harden the runner
+        uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d # v2.16.1
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - id: rubygems
+        run: |
+          ruby -e \
+            'print "version=", Gem::Specification.load(ARGV[0]).rubygems_version, "\n"' \
+            minitest-bonus-assertions.gemspec >>"${GITHUB_OUTPUT}"
+
+      - uses: ruby/setup-ruby@3ff19f5e2baf30647122352b96108b1fbe250c64 # v1.299.0
+        with:
+          bundler-cache: false
+          ruby-version: ruby
+
+      - name: Install dependencies
+        run: |
+          gem update --system="${RUBYGEMS_VERSION}"
+          bundle install --jobs 4 --retry 3
+        env:
+          RUBYGEMS_VERSION: ${{ steps.rubygems.outputs.version }}
+
+      - name: Build documentation
+        run: |
+          rake docs
+
+      - name: Upload documentation artifact
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
+        with:
+          path: doc
+
+      - name: Deploy documentation
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0

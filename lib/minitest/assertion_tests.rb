@@ -27,8 +27,8 @@ module Minitest::AssertionTests
 
     Minitest::Test.reset
 
-    @tc = Minitest::Test.new 'fake test case'
-    @spec = Minitest::Spec.new 'fake test spec'
+    @tc = Minitest::Test.new "fake test case"
+    @spec = Minitest::Spec.new "fake test spec"
   end
 
   # Specify the number of assertions that should be called during the test
@@ -37,7 +37,7 @@ module Minitest::AssertionTests
     yield
   ensure
     actual = tc.assertions + spec.assertions
-    assert_equal expected, actual, "expected #{expected} assertions to be " +
+    assert_equal expected, actual, "expected #{expected} assertions to be " \
       "fired during the test, not #{actual}"
   end
 
@@ -48,7 +48,7 @@ module Minitest::AssertionTests
     end
 
     msg = e.message.sub(/(---Backtrace---).*/m, '\1')
-    msg.gsub!(/\(oid=[-0-9]+\)/, '(oid=N)')
+    msg.gsub!(/\(oid=[-0-9]+\)/, "(oid=N)")
     msg.gsub!(/(\d\.\d{6})\d+/, '\1xxx') # normalize: ruby version, impl, platform
 
     assert_equal expected, msg

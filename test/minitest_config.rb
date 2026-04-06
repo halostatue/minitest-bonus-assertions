@@ -1,9 +1,5 @@
-gem 'minitest'
-require 'minitest/autorun'
-require 'minitest/pretty_diff'
-require 'minitest/focus'
-require 'minitest/moar'
-require 'minitest/bisect'
+gem "minitest"
+require "minitest/focus"
 
-require 'minitest-bonus-assertions'
-require 'minitest/assertion_tests'
+require "minitest/bonus_assertions"
+require "minitest/assertion_tests"
